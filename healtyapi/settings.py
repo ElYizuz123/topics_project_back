@@ -18,6 +18,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'usuarios',
     'citas',
+    'registros',
     'pacientes',
 ]
 
