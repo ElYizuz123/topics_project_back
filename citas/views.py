@@ -10,8 +10,8 @@ class CitaViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     pagination_class = CitasPagination
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
-    search_fields = ['motivo', 'paciente__nombre', 'paciente__apellidos', 'tipo_ejercicio']
-    ordering_fields = ['fecha', 'hora', 'created_at', 'imc', 'porcentaje_grasa_corporal']
+    search_fields = ['motivo', 'paciente__nombre', 'paciente__apellidos']
+    ordering_fields = ['fecha', 'hora', 'created_at']
     ordering = ['-fecha', '-hora']  # Orden por defecto: más recientes primero
 
     def get_queryset(self):
@@ -31,15 +31,5 @@ class CitaViewSet(viewsets.ModelViewSet):
         tipo = self.request.query_params.get('tipo')
         if tipo:
             qs = qs.filter(tipo=tipo)
-        
-        # Filtro por intensidad
-        intensidad = self.request.query_params.get('intensidad')
-        if intensidad:
-            qs = qs.filter(intensidad=intensidad)
-        
-        # Filtro por progreso positivo
-        progreso = self.request.query_params.get('progreso_positivo')
-        if progreso is not None:
-            qs = qs.filter(progreso_positivo=progreso.lower() in ['true', '1', 'yes'])
         
         return qs
